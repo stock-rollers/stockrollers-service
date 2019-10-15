@@ -2,11 +2,15 @@ package edu.cnm.deepdive.stockrollersservice.model;
 
 import java.awt.Point;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Stock {
@@ -15,6 +19,9 @@ public class Stock {
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "stock_id", nullable = false, updatable = false)
   private long id;
+
+  @ManyToMany(mappedBy = "stock", fetch = FetchType.LAZY)
+  private Set<Stock> share = new TreeSet<>();
 
   @Column(name = "name")
   private String name;

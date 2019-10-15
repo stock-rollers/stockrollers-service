@@ -33,6 +33,14 @@ public class User {
   @ManyToMany(mappedBy = "followers", fetch = FetchType.LAZY)
   private Set<User> follows = new TreeSet<>();
 
+
+  @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
+      CascadeType.PERSIST, CascadeType.REFRESH})
+  @JoinTable(name = "stock_share",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "stock_id"))
+  private Set<User> stock = new TreeSet<>();
+
   @NonNull
   @Column(nullable = false, updatable = false)
   private List<Stock> favorites;
