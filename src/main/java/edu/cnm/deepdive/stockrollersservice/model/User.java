@@ -22,7 +22,7 @@ public class User {
 
   @NonNull
   @Column(name = "preferred", nullable = false, updatable = false)
-  List<Industry> preferred;
+  List<Sector> preferred;
 
   @NonNull
   @Column(name = "stock_name", nullable = false, updatable = false)
@@ -36,11 +36,11 @@ public class User {
     this.favorites = favorites;
   }
 
-  public List<Industry> getPreferred() {
+  public List<Sector> getPreferred() {
     return preferred;
   }
 
-  public void setPreferred(List<Industry> preferred) {
+  public void setPreferred(List<Sector> preferred) {
     this.preferred = preferred;
   }
 
