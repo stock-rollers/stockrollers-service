@@ -1,6 +1,9 @@
 package edu.cnm.deepdive.stockrollersservice.model;
 
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,11 +23,15 @@ public class User {
   @Column(name = "user_id", updatable = false, nullable = false)
   private Long id;
 
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JoinTable(name = "user_follow",
-  joinColumns = @JoinColumn(name = "follower_id"),
-      inverseJoinColumns = @JoinColumn(name = "followed_id")
-  )
+  @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
+      CascadeType.PERSIST, CascadeType.REFRESH})
+  @JoinTable(name = "follow",
+      joinColumns = @JoinColumn(name = "follower_id"),
+      inverseJoinColumns = @JoinColumn(name = "followed_id"))
+  private Set<User> followers = new TreeSet<>();
+
+  @ManyToMany(mappedBy = "followers", fetch = FetchType.LAZY)
+  private Set<User> follows = new TreeSet<>();
 
   @NonNull
   @Column(nullable = false, updatable = false)
