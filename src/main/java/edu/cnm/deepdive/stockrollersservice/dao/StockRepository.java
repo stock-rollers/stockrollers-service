@@ -1,5 +1,9 @@
 package edu.cnm.deepdive.stockrollersservice.dao;
 
-public interface StockRepository {
+
+import org.springframework.data.repository.CrudRepository;
+
+public interface StockRepository extends CrudRepository {
+
 
 }
