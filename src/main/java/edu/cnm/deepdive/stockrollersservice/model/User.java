@@ -14,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Component;
 
 @Entity
 public class User {
@@ -66,11 +65,11 @@ public class User {
     this.preferred = preferred;
   }
 
-  public String getStockName() {
+  public String getName() {
     return name;
   }
 
-  public void setStockName(String stockName) {
-    this.name = stockName;
+  public void setName(@NonNull String name) {
+    this.name = name;
   }
 }
