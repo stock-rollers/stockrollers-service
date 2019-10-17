@@ -60,7 +60,7 @@ public class Stock {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@NonNull String name) {
     this.name = name;
   }
 
@@ -68,7 +68,7 @@ public class Stock {
     return nasdaqName;
   }
 
-  public void setNasdaqName(String nasdaqName) {
+  public void setNasdaqName(@NonNull String nasdaqName) {
     this.nasdaqName = nasdaqName;
   }
 
@@ -76,7 +76,7 @@ public class Stock {
     return company;
   }
 
-  public void setCompany(String company) {
+  public void setCompany(@NonNull String company) {
     this.company = company;
   }
 
@@ -84,7 +84,7 @@ public class Stock {
     return sector;
   }
 
-  public void setSector(Sector sector) {
+  public void setSector(@NonNull Sector sector) {
     this.sector = sector;
   }
 
@@ -92,7 +92,7 @@ public class Stock {
     return price;
   }
 
-  public void setPrice(double price) {
+  public void setPrice(@NonNull double price) {
     this.price = price;
   }
 
