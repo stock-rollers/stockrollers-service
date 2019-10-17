@@ -25,18 +25,23 @@ public class Stock {
   private Set<User> users = new TreeSet<>();
 
   @NonNull
+  @Column(nullable = false, updatable = false)
   private String name;
 
   @NonNull
+  @Column(nullable = false, updatable = false)
   private String nasdaqName;
 
   @NonNull
+  @Column(nullable = false, updatable = false)
   private String company;
 
   @NonNull
+  @Column(nullable = false, updatable = false)
   private Sector sector;
 
   @NonNull
+  @Column(nullable = false)
   private double price;
 
   private double fiftyTwoWkHigh;

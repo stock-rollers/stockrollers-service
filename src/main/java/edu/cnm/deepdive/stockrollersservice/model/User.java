@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Component;
 
 @Entity
 public class User {
@@ -46,7 +47,8 @@ public class User {
   private List<Sector> preferred;
 
   @NonNull
-  private String stockName;
+  @Column(nullable = false, updatable = false)
+  private String name;
 
   public List<Stock> getFavorites() {
     return favorites;
@@ -65,10 +67,10 @@ public class User {
   }
 
   public String getStockName() {
-    return stockName;
+    return name;
   }
 
   public void setStockName(String stockName) {
-    this.stockName = stockName;
+    this.name = stockName;
   }
 }
