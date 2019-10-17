@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import org.springframework.lang.NonNull;
 
 @Entity
 public class Stock {
@@ -23,31 +24,27 @@ public class Stock {
   @ManyToMany(mappedBy = "stock", fetch = FetchType.LAZY)
   private Set<Stock> share = new TreeSet<>();
 
-  @Column(name = "name")
+  @NonNull
   private String name;
 
-  @Column(name = "nasdaq_name")
+  @NonNull
   private String nasdaqName;
 
-  @Column(name = "company")
+  @NonNull
   private String company;
 
-  @Column(name = "industry")
+  @NonNull
   private Sector sector;
 
-  @Column(name = "price")
+  @NonNull
   private double price;
 
-  @Column(name = "high")
-  private double high;
+  private double fiftyTwoWkHigh;
 
-  @Column(name = "low")
-  private double low;
+  private double fiftyTwoWkLow;
 
-  @Column(name = "points")
   private List<Point> points;
 
-  @Column(name = "plot_path")
   private String plotPath;
 
   public long getId() {
@@ -94,20 +91,20 @@ public class Stock {
     this.price = price;
   }
 
-  public double getHigh() {
-    return high;
+  public double getFiftyTwoWkHigh() {
+    return fiftyTwoWkHigh;
   }
 
-  public void setHigh(double high) {
-    this.high = high;
+  public void setFiftyTwoWkHigh(double fiftyTwoWkHigh) {
+    this.fiftyTwoWkHigh = fiftyTwoWkHigh;
   }
 
-  public double getLow() {
-    return low;
+  public double getFiftyTwoWkLow() {
+    return fiftyTwoWkLow;
   }
 
-  public void setLow(double low) {
-    this.low = low;
+  public void setFiftyTwoWkLow(double fiftyTwoWkLow) {
+    this.fiftyTwoWkLow = fiftyTwoWkLow;
   }
 
   public List<Point> getPoints() {
