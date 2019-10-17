@@ -21,8 +21,8 @@ public class Stock {
   @Column(name = "stock_id", nullable = false, updatable = false)
   private long id;
 
-  @ManyToMany(mappedBy = "stock", fetch = FetchType.LAZY)
-  private Set<Stock> share = new TreeSet<>();
+  @ManyToMany(mappedBy = "stocks", fetch = FetchType.LAZY)
+  private Set<User> users = new TreeSet<>();
 
   @NonNull
   private String name;

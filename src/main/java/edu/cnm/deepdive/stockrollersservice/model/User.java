@@ -39,7 +39,7 @@ public class User {
   @JoinTable(name = "stock_share",
       joinColumns = @JoinColumn(name = "user_id"),
       inverseJoinColumns = @JoinColumn(name = "stock_id"))
-  private Set<User> stock = new TreeSet<>();
+  private Set<User> stocks = new TreeSet<>();
 
   private List<Stock> favorites;
 
