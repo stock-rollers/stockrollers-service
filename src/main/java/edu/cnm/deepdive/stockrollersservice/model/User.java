@@ -41,11 +41,9 @@ public class User {
       inverseJoinColumns = @JoinColumn(name = "stock_id"))
   private Set<User> stock = new TreeSet<>();
 
-  @Column(nullable = false, updatable = false)
   private List<Stock> favorites;
 
-  @Column(name = "preferred", nullable = false, updatable = false)
-  List<Sector> preferred;
+  private List<Sector> preferred;
 
   @NonNull
   private String stockName;
