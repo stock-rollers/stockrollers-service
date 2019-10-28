@@ -1,8 +1,10 @@
 package edu.cnm.deepdive.stockrollersservice.model;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,10 +15,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OrderBy;
 import org.springframework.lang.NonNull;
 
 @Entity
-public class User {
+public class User implements Comparable<User>{
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,7 +34,7 @@ public class User {
   private Set<User> followers = new HashSet<>();
 
   @ManyToMany(mappedBy = "followers", fetch = FetchType.LAZY)
-  private Set<User> follows = new HashSet<>();
+  private Set<User> follows = new TreeSet<>();
 
 
   @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
@@ -39,7 +42,7 @@ public class User {
   @JoinTable(name = "stock_share",
       joinColumns = @JoinColumn(name = "user_id"),
       inverseJoinColumns = @JoinColumn(name = "stock_id"))
-  private Set<User> stocks = new HashSet<>();
+  private List<User> stocks = new LinkedList<>();
 
   private List<Stock> favorites;
 
@@ -71,5 +74,20 @@ public class User {
 
   public void setName(@NonNull String name) {
     this.name = name;
+  }
+
+  @Override
+  public int compareTo(User o) {
+    return 0;
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    return super.equals(obj);
   }
 }

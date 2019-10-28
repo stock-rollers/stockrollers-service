@@ -2,6 +2,7 @@ package edu.cnm.deepdive.stockrollersservice.model;
 
 import java.awt.Point;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OrderBy;
 import org.springframework.lang.NonNull;
 
 @Entity
@@ -22,7 +24,8 @@ public class Stock {
   private long id;
 
   @ManyToMany(mappedBy = "stocks", fetch = FetchType.LAZY)
-  private Set<User> users = new HashSet<>();
+  @OrderBy("ASC")
+  private List<User> users = new LinkedList<>();
 
   @NonNull
   @Column(nullable = false, updatable = false)
