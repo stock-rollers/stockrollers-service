@@ -1,8 +1,8 @@
 package edu.cnm.deepdive.stockrollersservice.model;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,10 +28,10 @@ public class User {
   @JoinTable(name = "follow",
       joinColumns = @JoinColumn(name = "follower_id"),
       inverseJoinColumns = @JoinColumn(name = "followed_id"))
-  private Set<User> followers = new TreeSet<>();
+  private Set<User> followers = new HashSet<>();
 
   @ManyToMany(mappedBy = "followers", fetch = FetchType.LAZY)
-  private Set<User> follows = new TreeSet<>();
+  private Set<User> follows = new HashSet<>();
 
 
   @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
@@ -39,11 +39,11 @@ public class User {
   @JoinTable(name = "stock_share",
       joinColumns = @JoinColumn(name = "user_id"),
       inverseJoinColumns = @JoinColumn(name = "stock_id"))
-  private Set<User> stocks = new TreeSet<>();
+  private Set<User> stocks = new HashSet<>();
 
   private List<Stock> favorites;
 
-  private List<Sector> preferred;
+  private List<Stock.Sector> preferred;
 
   @NonNull
   @Column(nullable = false, updatable = false)
@@ -57,11 +57,11 @@ public class User {
     this.favorites = favorites;
   }
 
-  public List<Sector> getPreferred() {
+  public List<Stock.Sector> getPreferred() {
     return preferred;
   }
 
-  public void setPreferred(List<Sector> preferred) {
+  public void setPreferred(List<Stock.Sector> preferred) {
     this.preferred = preferred;
   }
 

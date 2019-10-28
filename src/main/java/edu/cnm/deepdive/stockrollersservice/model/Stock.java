@@ -1,9 +1,9 @@
 package edu.cnm.deepdive.stockrollersservice.model;
 
 import java.awt.Point;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,7 +22,7 @@ public class Stock {
   private long id;
 
   @ManyToMany(mappedBy = "stocks", fetch = FetchType.LAZY)
-  private Set<User> users = new TreeSet<>();
+  private Set<User> users = new HashSet<>();
 
   @NonNull
   @Column(nullable = false, updatable = false)
@@ -126,5 +126,23 @@ public class Stock {
 
   public void setPlotPath(String plotPath) {
     this.plotPath = plotPath;
+  }
+
+
+  public enum Sector {
+
+    FINANCIAL,
+    UTILITIES,
+    CONSUMER_DISCRETIONARY,
+    CONSUMER_STAPLES,
+    ENERGY,
+    HEALTH_CARE,
+    INDUSTRIAL,
+    TECHNOLOGY,
+    TELECOM,
+    MATERIALS,
+    REAL_ESTATE,
+
+
   }
 }
