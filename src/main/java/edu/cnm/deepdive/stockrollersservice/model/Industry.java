@@ -33,7 +33,30 @@ public class Industry {
 
   @NonNull
   @OneToMany(fetch = FetchType.EAGER)
-  @JoinColumn(name = "stock_id", nullable = false, updatable = true)
+  @JoinColumn(name = "stock_id", nullable = false, updatable = false)
   private Stock stock;
 
+  public long getId() {
+    return id;
+  }
+
+  public List<Industry> getIndustries() {
+    return industries;
+  }
+
+  public Stock getStock() {
+    return stock;
+  }
+
+  public void setStock(Stock stock) {
+    this.stock = stock;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 }

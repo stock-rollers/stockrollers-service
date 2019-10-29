@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.stockrollersservice.model;
 
+import edu.cnm.deepdive.stockrollersservice.model.Stock.Sector;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -61,23 +62,39 @@ public class User implements Comparable<User>{
   @Column(nullable = false, updatable = false)
   private String name;
 
+  public Long getId() {
+    return id;
+  }
+
+  public Set<User> getFollowers() {
+    return followers;
+  }
+
+  public Set<User> getFollows() {
+    return follows;
+  }
+
+  public List<User> getStocks() {
+    return stocks;
+  }
+
+  public List<User> getUsers() {
+    return users;
+  }
+
   public List<Stock> getFavorites() {
     return favorites;
   }
 
-  public List<Stock.Sector> getPreferred() {
+  public List<Sector> getPreferred() {
     return preferred;
-  }
-
-  public void setPreferred(List<Stock.Sector> preferred) {
-    this.preferred = preferred;
   }
 
   public String getName() {
     return name;
   }
 
-  public void setName(@NonNull String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
