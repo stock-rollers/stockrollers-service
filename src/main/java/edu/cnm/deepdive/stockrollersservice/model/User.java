@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OrderBy;
 import org.springframework.lang.NonNull;
 
 @Entity
@@ -26,6 +25,7 @@ public class User implements Comparable<User>{
   @Column(name = "user_id", updatable = false, nullable = false)
   private Long id;
 
+  //Many to many relationship for followers following or follow entity
   @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
       CascadeType.PERSIST, CascadeType.REFRESH})
   @JoinTable(name = "follow",
@@ -37,12 +37,21 @@ public class User implements Comparable<User>{
   private Set<User> follows = new TreeSet<>();
 
 
+  //Many to many relationship for user stock or stock_share entity
   @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
       CascadeType.PERSIST, CascadeType.REFRESH})
   @JoinTable(name = "stock_share",
       joinColumns = @JoinColumn(name = "user_id"),
       inverseJoinColumns = @JoinColumn(name = "stock_id"))
   private List<User> stocks = new LinkedList<>();
+
+  //Many to many relationship for user industry or preferred entity
+  @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
+      CascadeType.PERSIST, CascadeType.REFRESH})
+  @JoinTable(name = "preferred",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "industry_id"))
+  private List<User> users = new LinkedList<>();
 
   private List<Stock> favorites;
 
