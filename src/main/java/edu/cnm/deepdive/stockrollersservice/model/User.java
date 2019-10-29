@@ -65,10 +65,6 @@ public class User implements Comparable<User>{
     return favorites;
   }
 
-  public void setFavorites(List<Stock> favorites) {
-    this.favorites = favorites;
-  }
-
   public List<Stock.Sector> getPreferred() {
     return preferred;
   }
