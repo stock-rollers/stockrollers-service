@@ -43,7 +43,7 @@ public class Stock {
 
   @NonNull
   @Column(nullable = false, updatable = false)
-  private Sector sector;
+  private Industry industry;
 
   @NonNull
   @Column(nullable = false)
@@ -85,12 +85,12 @@ public class Stock {
     this.company = company;
   }
 
-  public Sector getSector() {
-    return sector;
+  public Industry getIndustry() {
+    return industry;
   }
 
-  public void setSector(@NonNull Sector sector) {
-    this.sector = sector;
+  public void setIndustry(@NonNull Industry industry) {
+    this.industry = industry;
   }
 
   public double getPrice() {
@@ -134,20 +134,4 @@ public class Stock {
   }
 
 
-  public enum Sector {
-
-    FINANCIAL,
-    UTILITIES,
-    CONSUMER_DISCRETIONARY,
-    CONSUMER_STAPLES,
-    ENERGY,
-    HEALTH_CARE,
-    INDUSTRIAL,
-    TECHNOLOGY,
-    TELECOM,
-    MATERIALS,
-    REAL_ESTATE,
-
-
-  }
 }
