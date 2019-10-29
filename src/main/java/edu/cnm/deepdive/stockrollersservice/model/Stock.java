@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OrderBy;
+import javax.persistence.OneToMany;
 import org.springframework.lang.NonNull;
 
 @Entity
@@ -22,8 +22,12 @@ public class Stock {
   private long id;
 
   @ManyToMany(mappedBy = "stocks", fetch = FetchType.LAZY)
-  @OrderBy("ASC")
   private List<User> users = new LinkedList<>();
+
+  @NonNull
+  @OneToMany(fetch = FetchType.EAGER)
+  @Column(name = "data_point_id", nullable = false, updatable = false)
+  private long dataPointId;
 
   @NonNull
   @Column(nullable = false, updatable = false)
