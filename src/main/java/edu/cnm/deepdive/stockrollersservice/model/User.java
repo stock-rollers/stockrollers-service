@@ -1,6 +1,5 @@
 package edu.cnm.deepdive.stockrollersservice.model;
 
-import edu.cnm.deepdive.stockrollersservice.model.Stock.Sector;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -54,10 +53,6 @@ public class User implements Comparable<User>{
       inverseJoinColumns = @JoinColumn(name = "industry_id"))
   private List<User> users = new LinkedList<>();
 
-  private List<Stock> favorites;
-
-  private List<Stock.Sector> preferred;
-
   @NonNull
   @Column(nullable = false, updatable = false)
   private String name;
@@ -80,14 +75,6 @@ public class User implements Comparable<User>{
 
   public List<User> getUsers() {
     return users;
-  }
-
-  public List<Stock> getFavorites() {
-    return favorites;
-  }
-
-  public List<Sector> getPreferred() {
-    return preferred;
   }
 
   public String getName() {
