@@ -1,17 +1,10 @@
 package edu.cnm.deepdive.stockrollersservice.dao;
 
-import edu.cnm.deepdive.stockrollersservice.model.User;
-import java.time.LocalDate;
+import edu.cnm.deepdive.stockrollersservice.model.DataPoint;
+import edu.cnm.deepdive.stockrollersservice.model.Stock;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 
-
-public interface DataPointRepository extends CrudRepository {
-
-  Optional<User> 
-
-
-  public List<LocalDate> getClosingprice(float x);
-
+public interface DataPointRepository extends CrudRepository<DataPoint, Long> {
+  List<DataPoint> getDataPointsByStockIdOrderByHorizontalAsc(Stock stock);
 }

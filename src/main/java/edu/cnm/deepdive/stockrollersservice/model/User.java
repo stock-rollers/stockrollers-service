@@ -43,7 +43,7 @@ public class User implements Comparable<User>{
   @JoinTable(name = "stock_share",
       joinColumns = @JoinColumn(name = "user_id"),
       inverseJoinColumns = @JoinColumn(name = "stock_id"))
-  private List<User> stocks = new LinkedList<>();
+  private List<Stock> stocks = new LinkedList<>();
 
   //Many to many relationship for user industry or preferred entity
   @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
@@ -69,7 +69,7 @@ public class User implements Comparable<User>{
     return follows;
   }
 
-  public List<User> getStocks() {
+  public List<Stock> getStocks() {
     return stocks;
   }
 

@@ -23,38 +23,38 @@ public class DataPoint {
   @NonNull
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "stock_id", nullable = false, updatable = false)
-  private long stockId;
+  private Stock stock;
 
   @Nullable
-  @Column(name = "x", nullable = true, updatable = false)
-  private float x;
+  @Column(name = "vertical", nullable = true, updatable = false)
+  private float vertical;
 
   @Nullable
-  @Column(name="y", nullable = true, updatable = false)
-  private LocalDate y;
+  @Column(name="horizontal", nullable = true, updatable = false)
+  private LocalDate horizontal;
 
   public long getId() {
     return id;
   }
 
-  public long getStockId() {
-    return stockId;
+  public Stock getStockId() {
+    return stock;
   }
 
   public float getX() {
-    return x;
+    return vertical;
   }
 
-  public void setX(float x) {
-    this.x = x;
+  public void setX(float vertical) {
+    this.vertical = vertical;
   }
 
   @Nullable
   public LocalDate getY() {
-    return y;
+    return horizontal;
   }
 
-  public void setY(@Nullable LocalDate y) {
-    this.y = y;
+  public void setY(@Nullable LocalDate horizontal) {
+    this.horizontal = horizontal;
   }
 }

@@ -25,9 +25,8 @@ public class Stock {
   private List<User> users = new LinkedList<>();
 
   @NonNull
-  @OneToMany(fetch = FetchType.EAGER)
-  @Column(name = "data_point_id", nullable = false, updatable = false)
-  private long dataPointId;
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "stock")
+  private List<DataPoint> dataPoints;
 
   @NonNull
   @Column(nullable = false, updatable = false)
