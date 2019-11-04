@@ -1,7 +1,7 @@
-package edu.cnm.deepdive.stockrollersservice.dao;
+package edu.cnm.deepdive.stockrollersservice.model.dao;
 
-import edu.cnm.deepdive.stockrollersservice.model.DataPoint;
-import edu.cnm.deepdive.stockrollersservice.model.Stock;
+import edu.cnm.deepdive.stockrollersservice.model.entity.DataPoint;
+import edu.cnm.deepdive.stockrollersservice.model.entity.Stock;
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 

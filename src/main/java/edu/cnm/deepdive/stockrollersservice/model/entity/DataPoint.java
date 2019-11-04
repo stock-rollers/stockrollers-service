@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.stockrollersservice.model;
+package edu.cnm.deepdive.stockrollersservice.model.entity;
 
 import java.time.LocalDate;
 import javax.persistence.Column;

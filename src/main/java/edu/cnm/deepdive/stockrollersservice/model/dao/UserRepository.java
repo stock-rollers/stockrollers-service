@@ -1,8 +1,8 @@
-package edu.cnm.deepdive.stockrollersservice.dao;
+package edu.cnm.deepdive.stockrollersservice.model.dao;
 
 
-import edu.cnm.deepdive.stockrollersservice.model.Stock;
-import edu.cnm.deepdive.stockrollersservice.model.User;
+import edu.cnm.deepdive.stockrollersservice.model.entity.Stock;
+import edu.cnm.deepdive.stockrollersservice.model.entity.User;
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
@@ -15,4 +15,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
   List<User> getUsersByFollows(User user);
 
+  //TODO Might need @Query annotation. (double check)
+  List<User> getAllByStockId(long stockId);
 }

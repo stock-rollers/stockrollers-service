@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.stockrollersservice.model;
+package edu.cnm.deepdive.stockrollersservice.model.entity;
 
 import java.awt.Point;
 import java.util.LinkedList;

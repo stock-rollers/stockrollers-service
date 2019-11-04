@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.stockrollersservice.model;
+package edu.cnm.deepdive.stockrollersservice.model.entity;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -15,9 +15,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import org.springframework.lang.NonNull;
 
 @Entity
+@Table(name = "UserInfo")
 public class User implements Comparable<User>{
 
   @Id
