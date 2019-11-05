@@ -6,5 +6,7 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 public interface DataPointRepository extends CrudRepository<DataPoint, Long> {
-  List<DataPoint> getDataPointsByStockIdOrderByHorizontalAsc(Stock stock);
+
+  List<DataPoint> getDataPointsByStockIdOrderByHorizontalAsc(long stockId);
+
 }

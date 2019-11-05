@@ -30,7 +30,24 @@ public class StockController {
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public List<Stock> get(@RequestParam("user") long userId) {
-    return stockRepository.getAllByUserId(userId); //Gets all stocks associated with a specific user.
+    return stockRepository
+        .getAllByUserId(userId); //Gets all stocks associated with a specific user.
+  }
+
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<Stock> get(User user) {
+    return stockRepository.getAllByUsersContainingOrderByName(user);
+  }
+
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<Stock> get(List<User> users) {
+    return stockRepository.getAllOrOrderByUsers(users);
+  }
+
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<Stock> getStocks(long industryId) {
+    return stockRepository
+        .getAllByIndustryId(industryId); //Gets all stocks from a specific industry.
   }
 
 }

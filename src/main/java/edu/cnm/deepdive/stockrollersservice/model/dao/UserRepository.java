@@ -11,9 +11,9 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
   List<User> getUsersByStocksContaining(Stock stock);
 
-  List<User> getUserByFollowers(User user);
+  List<User> getUserByFollowers(long followerId);
 
-  List<User> getUsersByFollows(User user);
+  List<User> getUsersByFollows(long followId);
 
   //TODO Might need @Query annotation. (double check)
   List<User> getAllByStockId(long stockId);
