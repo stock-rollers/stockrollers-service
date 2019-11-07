@@ -4,15 +4,22 @@ import edu.cnm.deepdive.stockrollersservice.model.dao.UserRepository;
 import edu.cnm.deepdive.stockrollersservice.model.entity.Stock;
 import edu.cnm.deepdive.stockrollersservice.model.entity.User;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
   private final UserRepository userRepository;
@@ -22,26 +29,57 @@ public class UserController {
     this.userRepository = userRepository;
   }
 
-  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<User> get(@RequestParam("stock") long stockId) {
-    return userRepository
-        .getAllByStockId(stockId); //Gets all users associated with a specific stock.
+  /**
+   * Gets followers of a user.
+   */
+  @GetMapping(value = "{id}/followers", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Set<User> getFollowers(@PathVariable long id) {
+    return  get(id).getFollowers();
   }
 
-  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<User> getFollower(long followerId) {
-    return userRepository.getUserByFollowers(followerId);
+  /**
+   * Gets who a user is following.
+   * @param id
+   * @return
+   */
+  @GetMapping(value = "{id}/follows", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Set<User> getFollows(@PathVariable long id) {
+    return  get(id).getFollows();
   }
 
-  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<User> getFollow(long followId) {
-    return userRepository.getUsersByFollows(followId);
+  /**
+   * Gets single user.
+   * @param id
+   * @return
+   */
+  @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public User get(@PathVariable long id) {
+    return userRepository.findById(id).get();
   }
 
+  /**
+   * Gets a list of all users.
+   * @return
+   */
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<User> get(Stock stock) {
-    return userRepository.getUsersByStocksContaining(stock);
+  public List<User> get() {
+    return userRepository.getAllByOrderByName();
   }
 
-  //TODO Postmapping to get User input then display all followers and follows.
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public  User addFollow(@RequestBody User user) {
+  return userRepository.save(user);
+  }
+
+  @PostMapping
+  public User addFollower(@RequestBody User userId) {
+    return userRepository.save(userId);
+  }
+
+//  @DeleteMapping(value = "{id}")
+//  @ResponseStatus(HttpStatus.NO_CONTENT)
+//  public User delete(@PathVariable long id) {
+//    return userRepository.delete(get(id)); //Deletes a stock from a User's "liked" list when they stop following
+//  }
+
 }
