@@ -1,12 +1,20 @@
 package edu.cnm.deepdive.stockrollersservice.controller;
 
+import ch.qos.logback.core.boolex.EvaluationException;
 import edu.cnm.deepdive.stockrollersservice.model.dao.StockRepository;
+import edu.cnm.deepdive.stockrollersservice.model.entity.DataPoint;
+import edu.cnm.deepdive.stockrollersservice.model.entity.Industry;
 import edu.cnm.deepdive.stockrollersservice.model.entity.Stock;
 import edu.cnm.deepdive.stockrollersservice.model.entity.User;
 import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,5 +52,17 @@ public class StockController {
     return stockRepository
         .getAllByIndustryId(industryId); //Gets all stocks from a specific industry.
   }
+
+  @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+  public Stock addStock(@RequestBody Stock stock) {
+    return stockRepository.save(stock);
+  }
+
+  @PostMapping(value = "{id}/stock", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+  public Stock post(@RequestBody Stock stock) {
+    return stockRepository.save(stock);
+  }
+
+
 
 }

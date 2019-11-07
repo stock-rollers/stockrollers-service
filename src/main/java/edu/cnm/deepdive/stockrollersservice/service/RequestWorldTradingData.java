@@ -1,5 +1,7 @@
 package edu.cnm.deepdive.stockrollersservice.service;
 
+import edu.cnm.deepdive.stockrollersservice.controller.StockController;
+import edu.cnm.deepdive.stockrollersservice.model.dao.StockRepository;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import java.util.concurrent.ExecutorService;
@@ -9,6 +11,8 @@ public class RequestWorldTradingData {
 
   @Value("$aouth.api")
   private String token;
+
+  private StockController stockController;
 
   private CompositeDisposable pending = new CompositeDisposable();
   private WorldTradingDataService stockService = WorldTradingDataService.getInstance();
@@ -21,6 +25,7 @@ public class RequestWorldTradingData {
         stockService.getStock(token, "FB")
         .subscribeOn(Schedulers.from(executor))
         .subscribe((stock) -> {
+            stockController.addStock(stock);
         })
     );
   }

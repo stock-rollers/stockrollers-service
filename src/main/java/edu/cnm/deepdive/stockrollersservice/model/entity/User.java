@@ -53,7 +53,7 @@ public class User implements Comparable<User>{
   @JoinTable(name = "preferred",
       joinColumns = @JoinColumn(name = "user_id"),
       inverseJoinColumns = @JoinColumn(name = "industry_id"))
-  private List<User> users = new LinkedList<>();
+  private List<Industry> industries = new LinkedList<>();
 
   @NonNull
   @Column(nullable = false, updatable = false)
@@ -75,8 +75,8 @@ public class User implements Comparable<User>{
     return stocks;
   }
 
-  public List<User> getUsers() {
-    return users;
+  public List<Industry> getUsers() {
+    return industries;
   }
 
   public String getName() {

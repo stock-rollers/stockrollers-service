@@ -25,8 +25,8 @@ public class Industry {
   @Column(nullable = false, updatable = false)
   private String name;
 
-  @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
-  private List<Industry> industries = new LinkedList<>();
+  @ManyToMany(mappedBy = "industries", fetch = FetchType.LAZY)
+  private List<User> users = new LinkedList<>();
 
   @NonNull
   @OneToMany(fetch = FetchType.EAGER)
@@ -37,12 +37,16 @@ public class Industry {
     return id;
   }
 
-  public List<Industry> getIndustries() {
-    return industries;
+  public List<User> getIndustries() {
+    return users;
   }
 
   public List<Stock> getStocks() {
     return stocks;
+  }
+
+  public void setStock(List<Stock> stocks) {
+    this.stocks = stocks;
   }
 
   public String getName() {

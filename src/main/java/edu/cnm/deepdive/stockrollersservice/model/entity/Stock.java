@@ -19,7 +19,7 @@ public class Stock {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "stock_id", nullable = false, updatable = false)
-  private long id;
+  private Long id;
 
   @ManyToMany(mappedBy = "stocks", fetch = FetchType.LAZY)
   private List<User> users = new LinkedList<>();
@@ -42,7 +42,7 @@ public class Stock {
 
   @NonNull
   @Column(nullable = false, updatable = false)
-  private Industry industry;
+  private long industry;
 
   @NonNull
   @Column(nullable = false)
@@ -52,7 +52,8 @@ public class Stock {
 
   private double fiftyTwoWkLow;
 
-  private List<Point> points;
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "stock")
+  private List<DataPoint> points = new LinkedList<>();
 
   private String plotPath;
 
@@ -84,11 +85,11 @@ public class Stock {
     this.company = company;
   }
 
-  public Industry getIndustry() {
+  public long getIndustry() {
     return industry;
   }
 
-  public void setIndustry(@NonNull Industry industry) {
+  public void setIndustry(@NonNull long industry) {
     this.industry = industry;
   }
 
@@ -116,11 +117,11 @@ public class Stock {
     this.fiftyTwoWkLow = fiftyTwoWkLow;
   }
 
-  public List<Point> getPoints() {
+  public List<DataPoint> getPoints() {
     return points;
   }
 
-  public void setPoints(List<Point> points) {
+  public void setPoints(List<DataPoint> points) {
     this.points = points;
   }
 
@@ -132,5 +133,7 @@ public class Stock {
     this.plotPath = plotPath;
   }
 
-
+  public List<User> getUsers() {
+    return users;
+  }
 }
