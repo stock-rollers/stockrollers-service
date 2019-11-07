@@ -18,7 +18,6 @@ public class RequestWorldTradingData {
   private WorldTradingDataService stockService = WorldTradingDataService.getInstance();
   private ExecutorService executor;
 
-  private long stockId;
 
   public void createStock() { //TODO DO NOT SEND WITH API KEY
     pending.add(

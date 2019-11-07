@@ -23,8 +23,8 @@ public class DataPointController {
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<DataPoint> get(long stockId) {
-    return dataPointRepository.getDataPointsByStockIdOrderByHorizontalAsc(stockId);
+  public List<DataPoint> get(Stock stock) {
+    return dataPointRepository.getDataPointsByStockOrderByHorizontalAsc(stock);
   }
 
 }

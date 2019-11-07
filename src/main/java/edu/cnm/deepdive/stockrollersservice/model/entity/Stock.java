@@ -1,6 +1,5 @@
 package edu.cnm.deepdive.stockrollersservice.model.entity;
 
-import java.awt.Point;
 import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.Column;
@@ -9,7 +8,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import org.springframework.lang.NonNull;
 
@@ -23,6 +24,10 @@ public class Stock {
 
   @ManyToMany(mappedBy = "stocks", fetch = FetchType.LAZY)
   private List<User> users = new LinkedList<>();
+
+//  @ManyToOne(fetch = FetchType.EAGER)
+//  @JoinColumn(name = "stock_id", updatable = false, nullable = false)
+//  private
 
   @NonNull
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "stock")
@@ -136,4 +141,5 @@ public class Stock {
   public List<User> getUsers() {
     return users;
   }
+
 }

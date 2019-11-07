@@ -30,7 +30,7 @@ public class Industry {
 
   @NonNull
   @OneToMany(fetch = FetchType.EAGER)
-  @JoinColumn(name = "stock_id", nullable = false, updatable = false)
+  @JoinColumn(name = "industry_id", nullable = false, updatable = false)
   private List<Stock> stocks;
 
   public long getId() {

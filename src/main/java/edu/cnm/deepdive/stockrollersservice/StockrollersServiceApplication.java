@@ -6,19 +6,23 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
 @SpringBootApplication
 public class StockrollersServiceApplication extends ResourceServerConfigurerAdapter {
 
-  @Value("762642106208-j8u4sq75j3nnjdvt4i6ckmajh18tm7rh.apps.googleusercontent.com")
-  private long clientId;
+  @Value("${oauth.clientId}")
+  private String clientId;
 
 
   public static void main(String[] args) {
     SpringApplication.run(StockrollersServiceApplication.class, args);
   }
 
-
+  @Override
+  public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+    resources.resourceId(clientId);
+  }
 
   @Override
   public void configure(HttpSecurity http) throws Exception {
