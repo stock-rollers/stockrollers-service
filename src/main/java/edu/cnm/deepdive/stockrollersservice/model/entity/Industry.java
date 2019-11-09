@@ -29,8 +29,7 @@ public class Industry {
   private List<User> users = new LinkedList<>();
 
   @NonNull
-  @OneToMany(fetch = FetchType.EAGER)
-  @JoinColumn(name = "industry_id", nullable = false, updatable = false)
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "industry")
   private List<Stock> stocks;
 
   public long getId() {

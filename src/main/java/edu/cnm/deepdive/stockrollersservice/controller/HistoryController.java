@@ -2,6 +2,8 @@ package edu.cnm.deepdive.stockrollersservice.controller;
 
 import edu.cnm.deepdive.stockrollersservice.model.dao.HistoryRepository;
 import edu.cnm.deepdive.stockrollersservice.model.entity.DataPoint;
+import edu.cnm.deepdive.stockrollersservice.model.entity.History;
+import edu.cnm.deepdive.stockrollersservice.model.entity.Stock;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,8 +23,8 @@ public class HistoryController {
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<DataPoint> get(long stockId) {
-    return historyRepository.getDataPointsByStockId(stockId);
+  public List<History> get(Stock stock) {
+    return historyRepository.getHistoriesByStock2OrderByCloseAsc(stock);
   }
 
 }

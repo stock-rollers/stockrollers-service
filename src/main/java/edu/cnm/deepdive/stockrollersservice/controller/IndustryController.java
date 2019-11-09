@@ -32,11 +32,11 @@ public class IndustryController {
    * @param id
    * @return
    */
-  @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<Industry> getIndustries(@PathVariable long id) {
+//  @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+//  public List<Industry> getIndustries(@PathVariable long id) {
 //    return industryRepository.getAllOrderByName(get(id));
-    return get(id).getIndustries();
-  }
+//    //return get(id).getIndustries();
+//  } says its ambiguous
 
   /**
    * Gets a single industry.

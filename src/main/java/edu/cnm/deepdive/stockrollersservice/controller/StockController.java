@@ -31,27 +31,27 @@ public class StockController {
     this.stockRepository = stockRepository;
   }
 
-  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<Stock> get(@RequestParam("user") long userId) {
-    return stockRepository
-        .getAllByUserId(userId); //Gets all stocks associated with a specific user.
-  }
+//  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+//  public List<Stock> get(@RequestParam("user") long userId) {
+//    return stockRepository
+//        .getAllByUserId(userId); //Gets all stocks associated with a specific user.
+//  } says its ambiguous
 
-  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<Stock> get(User user) {
-    return stockRepository.getAllByUsersContainingOrderByName(user);
-  }
+//  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+//  public List<Stock> get(User user) {
+//    return stockRepository.getAllByUsersContainingOrderByName(user);
+//  } says its ambiguous
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public List<Stock> get(List<User> users) {
     return stockRepository.getAllOrderByUsers(users);
   }
-
-  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<Stock> getStocks(long industryId) {
-    return stockRepository
-        .getAllByIndustryId(industryId); //Gets all stocks from a specific industry.
-  }
+//
+//  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+//  public List<Stock> getStocks(long industryId) {
+//    return stockRepository
+//        .getAllByIndustryId(industryId); //Gets all stocks from a specific industry.
+//  } says its ambiguous
 
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
   public Stock addStock(@RequestBody Stock stock) {

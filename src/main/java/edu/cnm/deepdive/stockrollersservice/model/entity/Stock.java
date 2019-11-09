@@ -25,9 +25,8 @@ public class Stock {
   @ManyToMany(mappedBy = "stocks", fetch = FetchType.LAZY)
   private List<User> users = new LinkedList<>();
 
-//  @ManyToOne(fetch = FetchType.EAGER)
-//  @JoinColumn(name = "stock_id", updatable = false, nullable = false)
-//  private
+  @OneToMany(mappedBy = "stock2", fetch = FetchType.LAZY)
+  private List<History> histories;
 
   @NonNull
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "stock")
@@ -46,8 +45,9 @@ public class Stock {
   private String company;
 
   @NonNull
-  @Column(nullable = false, updatable = false)
-  private long industry;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "industry", nullable = false, updatable = false)
+  private Industry industry;
 
   @NonNull
   @Column(nullable = false)
@@ -90,11 +90,11 @@ public class Stock {
     this.company = company;
   }
 
-  public long getIndustry() {
+  public Industry getIndustry() {
     return industry;
   }
 
-  public void setIndustry(@NonNull long industry) {
+  public void setIndustry(@NonNull Industry industry) {
     this.industry = industry;
   }
 

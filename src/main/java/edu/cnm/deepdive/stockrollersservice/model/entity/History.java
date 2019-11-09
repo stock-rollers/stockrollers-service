@@ -2,11 +2,17 @@ package edu.cnm.deepdive.stockrollersservice.model.entity;
 
 import java.time.LocalDate;
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import org.springframework.lang.NonNull;
 
+@Entity
 public class History {
 
   @Id
@@ -17,6 +23,10 @@ public class History {
   @NonNull
   @Column(nullable = false, updatable = false)
   private LocalDate date;
+
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "stock_id", updatable = false, nullable = false)
+  private Stock stock2;
 
   @Column(name = "open")
   private float open;
