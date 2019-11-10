@@ -6,12 +6,15 @@ import edu.cnm.deepdive.stockrollersservice.model.entity.User;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,21 +37,23 @@ public class UserController {
    */
   @GetMapping(value = "{id}/followers", produces = MediaType.APPLICATION_JSON_VALUE)
   public Set<User> getFollowers(@PathVariable long id) {
-    return  get(id).getFollowers();
+    return get(id).getFollowers();
   }
 
   /**
    * Gets who a user is following.
+   *
    * @param id
    * @return
    */
   @GetMapping(value = "{id}/follows", produces = MediaType.APPLICATION_JSON_VALUE)
   public Set<User> getFollows(@PathVariable long id) {
-    return  get(id).getFollows();
+    return get(id).getFollows();
   }
 
   /**
    * Gets single user.
+   *
    * @param id
    * @return
    */
@@ -59,6 +64,7 @@ public class UserController {
 
   /**
    * Gets a list of all users.
+   *
    * @return
    */
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -67,19 +73,19 @@ public class UserController {
   }
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public  User addFollow(@RequestBody User user) {
-  return userRepository.save(user);
+  @ResponseStatus(HttpStatus.CREATED)
+  public User addFollow(@RequestBody User user) {
+    return userRepository.save(user);
   }
 
-  @PostMapping
-  public User addFollower(@RequestBody User userId) {
-    return userRepository.save(userId);
+  @PatchMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public User updateUser(@RequestBody User user) {
+    return userRepository.save(user);
   }
 
-//  @DeleteMapping(value = "{id}")
-//  @ResponseStatus(HttpStatus.NO_CONTENT)
-//  public User delete(@PathVariable long id) {
-//    return userRepository.delete(get(id)); //Deletes a stock from a User's "liked" list when they stop following
-//  }
-
+  @DeleteMapping(value = "{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void delete(@PathVariable long id) {
+    userRepository.findById(id).ifPresent(userRepository::delete);
+  }
 }
