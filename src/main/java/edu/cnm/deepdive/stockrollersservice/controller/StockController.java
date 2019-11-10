@@ -39,11 +39,11 @@ public class StockController {
         .getAllByUserId(userId); //Gets all stocks associated with a specific user.
   }
 
-  //Not sure that this is possible
-  @GetMapping(value = "stocksbyusers", produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<Stock> getStockByUsers(@RequestParam("users") List<User> users) {
-    return stockRepository.getAllOrderByUsers(users);
-  }
+//  //Not sure that this is possible
+//  @GetMapping(value = "stocksbyusers", produces = MediaType.APPLICATION_JSON_VALUE)
+//  public List<Stock> getStockByUsers(@RequestParam("users") List<User> users) {
+//    return stockRepository.getAllOrderByUsers(users);
+//  }
 
   @GetMapping(value = "stocksbyindustry", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<Stock> getStocks(long industryId) {

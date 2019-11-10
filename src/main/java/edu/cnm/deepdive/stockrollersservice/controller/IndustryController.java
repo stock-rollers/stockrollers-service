@@ -4,10 +4,8 @@ import com.google.common.collect.Lists;
 import edu.cnm.deepdive.stockrollersservice.model.dao.IndustryRepository;
 import edu.cnm.deepdive.stockrollersservice.model.entity.Industry;
 import edu.cnm.deepdive.stockrollersservice.model.entity.Stock;
-import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,7 +29,7 @@ public class IndustryController {
 
   /**
    * Gets a list of all the industries.
-   * @return 
+   * @return List of All Industries
    */
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public List<Industry> getIndustries() {
