@@ -1,8 +1,10 @@
 package edu.cnm.deepdive.stockrollersservice.controller;
 
+import com.google.common.collect.Lists;
 import edu.cnm.deepdive.stockrollersservice.model.dao.IndustryRepository;
 import edu.cnm.deepdive.stockrollersservice.model.entity.Industry;
 import edu.cnm.deepdive.stockrollersservice.model.entity.Stock;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -29,14 +31,13 @@ public class IndustryController {
 
   /**
    * Gets a list of all the industries.
-   * @param id
-   * @return
+   * @return 
    */
-//  @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-//  public List<Industry> getIndustries(@PathVariable long id) {
-//    return industryRepository.getAllOrderByName(get(id));
-//    //return get(id).getIndustries();
-//  } says its ambiguous
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<Industry> getIndustries() {
+    return Lists.newArrayList(industryRepository.findAll());
+    //return get(id).getIndustries();
+  }
 
   /**
    * Gets a single industry.

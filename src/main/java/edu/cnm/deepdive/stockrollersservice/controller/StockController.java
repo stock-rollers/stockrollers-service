@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaBuilder.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/stocks")
+//@Controller("/stocks")
 //@ExposesResourcesFor(Stock.class)
 public class StockController {
 
@@ -31,27 +33,23 @@ public class StockController {
     this.stockRepository = stockRepository;
   }
 
-//  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-//  public List<Stock> get(@RequestParam("user") long userId) {
-//    return stockRepository
-//        .getAllByUserId(userId); //Gets all stocks associated with a specific user.
-//  } says its ambiguous
+  @GetMapping(value = "stocksbyuser", produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<Stock> get(@RequestParam("user") long userId) {
+    return stockRepository
+        .getAllByUserId(userId); //Gets all stocks associated with a specific user.
+  }
 
-//  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-//  public List<Stock> get(User user) {
-//    return stockRepository.getAllByUsersContainingOrderByName(user);
-//  } says its ambiguous
-
-  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<Stock> get(List<User> users) {
+  //Not sure that this is possible
+  @GetMapping(value = "stocksbyusers", produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<Stock> getStockByUsers(@RequestParam("users") List<User> users) {
     return stockRepository.getAllOrderByUsers(users);
   }
-//
-//  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-//  public List<Stock> getStocks(long industryId) {
-//    return stockRepository
-//        .getAllByIndustryId(industryId); //Gets all stocks from a specific industry.
-//  } says its ambiguous
+
+  @GetMapping(value = "stocksbyindustry", produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<Stock> getStocks(long industryId) {
+    return stockRepository
+        .getAllByIndustryId(industryId); //Gets all stocks from a specific industry.
+  }
 
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
   public Stock addStock(@RequestBody Stock stock) {
@@ -62,7 +60,4 @@ public class StockController {
   public Stock post(@RequestBody Stock stock) {
     return stockRepository.save(stock);
   }
-
-
-
 }

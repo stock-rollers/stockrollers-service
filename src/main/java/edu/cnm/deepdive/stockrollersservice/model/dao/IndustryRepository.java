@@ -7,6 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface IndustryRepository extends CrudRepository<Industry, Long> {
 
-  List<Industry> getAllOrderByName(Industry industry);
 
 }
