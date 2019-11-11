@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.stockrollersservice.model.entity;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +17,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
 @Entity
@@ -26,6 +30,12 @@ public class User implements Comparable<User>{
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "user_id", updatable = false, nullable = false)
   private Long id;
+
+  @NonNull
+  @CreationTimestamp
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(nullable = false, updatable = false)
+  private Date created;
 
   //Many to many relationship for followers following or follow entity
   @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
@@ -56,8 +66,22 @@ public class User implements Comparable<User>{
   private List<Industry> industries = new LinkedList<>();
 
   @NonNull
+  @Column(nullable = false, updatable = false, unique = true)
+  private String oauthKey;
+
+  @NonNull
   @Column(nullable = false, updatable = false)
   private String name;
+
+  @NonNull
+  public Date getCreated() {
+    return created;
+  }
+
+  @NonNull
+  public String getOauthKey() {
+    return oauthKey;
+  }
 
   public Long getId() {
     return id;
@@ -100,5 +124,9 @@ public class User implements Comparable<User>{
   @Override
   public boolean equals(Object obj) {
     return super.equals(obj);
+  }
+
+  public void setOauthKey(@NonNull String oauthKey) {
+    this.oauthKey = oauthKey;
   }
 }

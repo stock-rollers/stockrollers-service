@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.stockrollersservice.controller;
 
 import ch.qos.logback.core.boolex.EvaluationException;
+import com.google.api.client.util.Lists;
 import edu.cnm.deepdive.stockrollersservice.model.dao.StockRepository;
 import edu.cnm.deepdive.stockrollersservice.model.entity.DataPoint;
 import edu.cnm.deepdive.stockrollersservice.model.entity.Industry;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +39,12 @@ public class StockController {
     this.stockRepository = stockRepository;
   }
 
-  @GetMapping(value = "stocksbyuser", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<Stock> get(Authentication authentication) {
+    return Lists.newArrayList(stockRepository.findAll());
+  }
+
+  @GetMapping(value = "/stocksbyuser", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<Stock> get(@RequestParam("user") long userId) {
     return stockRepository
         .getAllByUserId(userId); //Gets all stocks associated with a specific user.
@@ -49,7 +56,7 @@ public class StockController {
 //    return stockRepository.getAllOrderByUsers(users);
 //  }
 
-  @GetMapping(value = "stocksbyindustry", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/stocksbyindustry", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<Stock> getStocks(long industryId) {
     return stockRepository
         .getAllByIndustryId(industryId); //Gets all stocks from a specific industry.
@@ -60,12 +67,10 @@ public class StockController {
     return stockRepository.save(stock);
   }
 
-  @PostMapping(value = "{id}/stock", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/{id}/stock", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
   public Stock post(@RequestBody Stock stock) {
     return stockRepository.save(stock);
   }
-
-  @PatchMapping()
 
   @DeleteMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.NO_CONTENT)
