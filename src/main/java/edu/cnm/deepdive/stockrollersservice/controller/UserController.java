@@ -4,12 +4,14 @@ import edu.cnm.deepdive.stockrollersservice.model.dao.UserRepository;
 import edu.cnm.deepdive.stockrollersservice.model.entity.Stock;
 import edu.cnm.deepdive.stockrollersservice.model.entity.User;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -72,20 +74,48 @@ public class UserController {
     return userRepository.getAllByOrderByName();
   }
 
+  /**
+   * Adds a follower of a user to the database.
+   * @param user
+   * @return
+   */
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
   public User addFollow(@RequestBody User user) {
     return userRepository.save(user);
   }
 
+  /**
+   * Updates a user.
+   * @param user
+   * @return
+   */
   @PatchMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public User updateUser(@RequestBody User user) {
     return userRepository.save(user);
   }
 
+  /**
+   * Deletes a follower of a user.
+   * @param id
+   */
   @DeleteMapping(value = "{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void delete(@PathVariable long id) {
     userRepository.findById(id).ifPresent(userRepository::delete);
   }
+
+  /**
+   * Returns a 404 not found if a NoSuchElementException is thrown.
+   */
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  @ExceptionHandler(NoSuchElementException.class)
+  public void notFound() {
+  }
+
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(Exception.class)
+  public void badRequest() {
+  }
+
 }
