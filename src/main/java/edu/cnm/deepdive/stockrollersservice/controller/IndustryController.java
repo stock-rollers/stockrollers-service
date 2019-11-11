@@ -60,6 +60,9 @@ public class IndustryController {
     return get(id).getStocks();
   }
 
+  /**
+   * Returns a 404 not found if a NoSuchElementException is thrown.
+   */
   @ResponseStatus(HttpStatus.NOT_FOUND)
   @ExceptionHandler(NoSuchElementException.class)
   public void notFound() {

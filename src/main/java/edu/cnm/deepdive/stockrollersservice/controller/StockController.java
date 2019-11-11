@@ -7,6 +7,7 @@ import edu.cnm.deepdive.stockrollersservice.model.entity.Industry;
 import edu.cnm.deepdive.stockrollersservice.model.entity.Stock;
 import edu.cnm.deepdive.stockrollersservice.model.entity.User;
 import java.util.List;
+import java.util.NoSuchElementException;
 import javax.persistence.criteria.CriteriaBuilder.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -72,4 +74,18 @@ public class StockController {
   public void delete(@RequestBody() long stockId) {
     stockRepository.findById(stockId).ifPresent(stockRepository::delete);
   }
+
+  /**
+   * Returns a 404 not found if a NoSuchElementException is thrown.
+   */
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  @ExceptionHandler(NoSuchElementException.class)
+  public void notFound() {
+  }
+
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(Exception.class)
+  public void badRequest() {
+  }
+
 }
