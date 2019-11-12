@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import retrofit2.http.Header;
 
 @RestController
 @RequestMapping("/stocks")
@@ -42,7 +43,7 @@ public class StockController {
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<Stock> get(Authentication authentication) {
+  public List<Stock> get(Authentication auth) {
     return Lists.newArrayList(stockRepository.findAll());
   }
 

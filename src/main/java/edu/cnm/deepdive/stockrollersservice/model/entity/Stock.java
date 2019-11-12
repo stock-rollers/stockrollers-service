@@ -25,7 +25,7 @@ public class Stock {
   @ManyToMany(mappedBy = "stocks", fetch = FetchType.LAZY)
   private List<User> users = new LinkedList<>();
 
-  @OneToMany(mappedBy = "stock2", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "stock", fetch = FetchType.LAZY)
   private List<History> histories;
 
   @NonNull

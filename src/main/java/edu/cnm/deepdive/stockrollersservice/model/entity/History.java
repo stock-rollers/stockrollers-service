@@ -26,21 +26,21 @@ public class History {
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "stock_id", updatable = false, nullable = false)
-  private Stock stock2;
+  private Stock stock;
 
-  @Column(name = "open")
+  @Column(name = "open_price")
   private float open;
 
-  @Column(name = "close")
+  @Column(name = "close_price")
   private float close;
 
-  @Column(name = "high")
+  @Column(name = "high_price")
   private float high;
 
-  @Column(name = "low")
+  @Column(name = "low_price")
   private float low;
 
-  @Column(name = "volume")
+  @Column(name = "trade_volume")
   private long volume;
 
   public long getId() {
