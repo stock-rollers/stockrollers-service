@@ -54,7 +54,7 @@ public class GoogleTokenService implements ResourceServerTokenServices {
       if (idToken != null) {
         Payload payload = idToken.getPayload();
         //the oauthkey is usually in the payloads subject
-        User user = userService.getOrCreateUser(payload.getSubject()); //TODO Get any additional info from payload.
+        User user = userService.getOrCreateUser(payload); //TODO Get any additional info from payload.
         Collection<GrantedAuthority> grants =
             Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
         Authentication base =

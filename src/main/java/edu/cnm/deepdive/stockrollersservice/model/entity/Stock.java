@@ -29,10 +29,6 @@ public class Stock {
   private List<History> histories;
 
   @NonNull
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "stock")
-  private List<DataPoint> dataPoints;
-
-  @NonNull
   @Column(nullable = false, updatable = false)
   private String name;
 
@@ -56,9 +52,6 @@ public class Stock {
   private double fiftyTwoWkHigh;
 
   private double fiftyTwoWkLow;
-
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "stock")
-  private List<DataPoint> points = new LinkedList<>();
 
   private String plotPath;
 
@@ -120,14 +113,6 @@ public class Stock {
 
   public void setFiftyTwoWkLow(double fiftyTwoWkLow) {
     this.fiftyTwoWkLow = fiftyTwoWkLow;
-  }
-
-  public List<DataPoint> getPoints() {
-    return points;
-  }
-
-  public void setPoints(List<DataPoint> points) {
-    this.points = points;
   }
 
   public String getPlotPath() {

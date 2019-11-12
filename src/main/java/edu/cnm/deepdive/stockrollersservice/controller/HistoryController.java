@@ -1,7 +1,6 @@
 package edu.cnm.deepdive.stockrollersservice.controller;
 
 import edu.cnm.deepdive.stockrollersservice.model.dao.HistoryRepository;
-import edu.cnm.deepdive.stockrollersservice.model.entity.DataPoint;
 import edu.cnm.deepdive.stockrollersservice.model.entity.History;
 import edu.cnm.deepdive.stockrollersservice.model.entity.Stock;
 import java.util.List;
@@ -36,7 +35,7 @@ public class HistoryController {
    */
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public List<History> get(Stock stock) {
-    return historyRepository.getHistoriesByStock2OrderByCloseAsc(stock);
+    return historyRepository.getHistoriesByStockOrderByCloseAsc(stock);
   }
 
   /**
