@@ -20,7 +20,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
   List<User> getUsersByFollows(long followId);
 
-  //TODO Might need @Query annotation. (double check)
   //List<User> getAllByStockId(long stockId);
 
   List<User> getAllByStocksContaining(Stock stock);

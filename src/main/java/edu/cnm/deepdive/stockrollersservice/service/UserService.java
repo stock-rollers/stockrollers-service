@@ -17,6 +17,11 @@ public class UserService {
     this.repository = repository;
   }
 
+  /**
+   * Either gets a user based on OAuthKey or creates a new user and sets it up with an OAuthKey.
+   * @param payload
+   * @return
+   */
   public User getOrCreateUser(Payload payload){
     String oauthKey = payload.getSubject();
     return repository.getUserByOauthKey(oauthKey)

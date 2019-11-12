@@ -37,6 +37,11 @@ public class StockController {
     this.stockRepository = stockRepository;
   }
 
+  /**
+   * Gets a list of stocks TODO umm what is this doing.
+   * @param auth
+   * @return
+   */
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public List<Stock> get(Authentication auth) {
     return Lists.newArrayList(stockRepository.findAll());
@@ -52,34 +57,59 @@ public class StockController {
     return null;
   }
 
+  /**
+   * Gets all stocks that a user is watching.
+   * @param userId
+   * @return
+   */
   @GetMapping(value = "/stocksbyuser", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<Stock> get(@RequestParam("user") long userId) {
     return stockRepository
-        .getAllByUserId(userId); //Gets all stocks associated with a specific user.
+        .getAllByUserId(userId);
   }
 
+  //FIXME delete this?
 //  //Not sure that this is possible
 //  @GetMapping(value = "stocksbyusers", produces = MediaType.APPLICATION_JSON_VALUE)
 //  public List<Stock> getStockByUsers(@RequestParam("users") List<User> users) {
 //    return stockRepository.getAllOrderByUsers(users);
 //  }
 
+  /**
+   * Gets all stocks from a specific industry.
+   * @param industryId
+   * @return
+   */
   @GetMapping(value = "/stocksbyindustry", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<Stock> getStocks(long industryId) {
     return stockRepository
-        .getAllByIndustryId(industryId); //Gets all stocks from a specific industry.
+        .getAllByIndustryId(industryId);
   }
 
+  /**
+   * Stores a stock in the database. FIXME is this different from below?
+   * @param stock
+   * @return
+   */
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
   public Stock addStock(@RequestBody Stock stock) {
     return stockRepository.save(stock);
   }
 
+  /**
+   * Stores a stock in the database. FIXME do we need ("/{id}/stock") if its a stock id in the stock controller?
+   * @param stock
+   * @return
+   */
   @PostMapping(value = "/{id}/stock", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
   public Stock post(@RequestBody Stock stock) {
     return stockRepository.save(stock);
   }
 
+  /**
+   * Deletes a stock.
+   * @param stockId
+   */
   @DeleteMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void delete(@RequestBody() long stockId) {
@@ -94,6 +124,9 @@ public class StockController {
   public void notFound() {
   }
 
+  /**
+   * Returns a 400 bad request error.
+   */
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(Exception.class)
   public void badRequest() {
