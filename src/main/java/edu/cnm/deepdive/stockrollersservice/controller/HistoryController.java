@@ -33,7 +33,7 @@ public class HistoryController {
    * @param stock
    * @return
    */
-  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/{stockticker}", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<History> get(Stock stock) {
     return historyRepository.getHistoriesByStockOrderByCloseAsc(stock);
   }

@@ -2,9 +2,13 @@ package edu.cnm.deepdive.stockrollersservice.controller;
 
 import com.google.api.client.util.Lists;
 import edu.cnm.deepdive.stockrollersservice.model.dao.StockRepository;
+import edu.cnm.deepdive.stockrollersservice.model.entity.History;
 import edu.cnm.deepdive.stockrollersservice.model.entity.Stock;
+import edu.cnm.deepdive.stockrollersservice.service.WorldTradingDataService;
+import io.reactivex.Single;
 import java.util.List;
 import java.util.NoSuchElementException;
+import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class StockController {
 
   private final StockRepository stockRepository;
+  private final WorldTradingDataService worldTradingData = WorldTradingDataService.getInstance();
 
   @Autowired
   public StockController(StockRepository stockRepository) {
@@ -35,6 +40,16 @@ public class StockController {
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public List<Stock> get(Authentication auth) {
     return Lists.newArrayList(stockRepository.findAll());
+  }
+
+  @GetMapping(value = "/{ticker}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Stock get(@PathParam() String ticker) {
+    if (stockRepository.getStockByNasdaqName(ticker).isPresent()) {
+      return stockRepository.getStockByNasdaqName(ticker).get();
+    } else {
+
+    }
+    return null;
   }
 
   @GetMapping(value = "/stocksbyuser", produces = MediaType.APPLICATION_JSON_VALUE)

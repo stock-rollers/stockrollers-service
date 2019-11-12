@@ -22,10 +22,7 @@ public interface WorldTradingDataService {
 
   @GET("stock/")
   Single<Stock> getStock(@Header("api_token") String token, @Query("symbol") String symbol);
-
-  @GET("stock/")
-  List<Stock> getStocks(@Header("api_token") String token, @Query("symbol") String symbol, @Query("symbol_two") String symbolTwo);
-
+  
   @GET("history/")
   List<History> getHistory(@Header("api_token") String token, @Query("symbol") String symbol);
 
