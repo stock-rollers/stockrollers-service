@@ -68,6 +68,9 @@ public class IndustryController {
   public void notFound() {
   }
 
+  /**
+   * Returns a 400 bad request error.
+   */
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(Exception.class)
   public void badRequest() {

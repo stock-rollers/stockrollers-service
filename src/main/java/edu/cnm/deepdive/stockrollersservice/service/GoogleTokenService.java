@@ -41,6 +41,13 @@ public class GoogleTokenService implements ResourceServerTokenServices {
     this.userService = userService;
   }
 
+  /**
+   * Adds authentication TODO make more descriptive.
+   * @param token
+   * @return
+   * @throws AuthenticationException
+   * @throws InvalidTokenException
+   */
   @Override
   public OAuth2Authentication loadAuthentication(String token)
       throws AuthenticationException, InvalidTokenException {
