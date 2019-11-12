@@ -48,7 +48,7 @@ public class StockController {
   }
 
   @GetMapping(value = "/{ticker}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Stock get(@PathParam() String ticker) {
+  public Stock get(@PathParam("ticker") String ticker) {
     if (stockRepository.getStockByNasdaqName(ticker).isPresent()) {
       return stockRepository.getStockByNasdaqName(ticker).get();
     } else {
