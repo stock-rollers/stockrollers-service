@@ -1,8 +1,10 @@
 package edu.cnm.deepdive.stockrollersservice.controller;
 
 import edu.cnm.deepdive.stockrollersservice.model.dao.HistoryRepository;
+import edu.cnm.deepdive.stockrollersservice.model.dao.StockRepository;
 import edu.cnm.deepdive.stockrollersservice.model.entity.History;
 import edu.cnm.deepdive.stockrollersservice.model.entity.Stock;
+import edu.cnm.deepdive.stockrollersservice.model.pojo.StockResponse;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,20 +24,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class HistoryController {
 
   private final HistoryRepository historyRepository;
+  private final StockRepository stockRepository;
 
   @Autowired
-  public HistoryController(HistoryRepository historyRepository) {
+  public HistoryController(HistoryRepository historyRepository, StockRepository stockRepository) {
     this.historyRepository = historyRepository;
+    this.stockRepository = stockRepository;
   }
 
   /**
    * Gets all the closing prices of a stock.
-   * @param stock
+   * @param stockticker
    * @return
    */
   @GetMapping(value = "/{stockticker}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<History> get(Stock stock) {
-    return historyRepository.getHistoriesByStockOrderByCloseAsc(stock);
+  public List<History> get(String stockticker) {
+    Long stockId = stockRepository.getStockByNasdaqName(stockticker).get().getId();
+    return historyRepository.getAllByStockId(stockId);
   }
 
   /**
@@ -70,9 +75,9 @@ public class HistoryController {
   /**
    * Returns a 400 bad request error.
    */
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  @ExceptionHandler(Exception.class)
-  public void badRequest() {
-  }
+//  @ResponseStatus(HttpStatus.BAD_REQUEST)
+//  @ExceptionHandler(Exception.class)
+//  public void badRequest() {
+//  }
 
 }

@@ -2,20 +2,19 @@ package edu.cnm.deepdive.stockrollersservice.controller;
 
 import com.google.api.client.util.Lists;
 import edu.cnm.deepdive.stockrollersservice.model.dao.StockRepository;
-import edu.cnm.deepdive.stockrollersservice.model.entity.History;
 import edu.cnm.deepdive.stockrollersservice.model.entity.Stock;
 import edu.cnm.deepdive.stockrollersservice.service.WorldTradingDataService;
-import io.reactivex.Single;
 import java.util.List;
 import java.util.NoSuchElementException;
-import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,11 +29,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class StockController {
 
   private final StockRepository stockRepository;
-  private final WorldTradingDataService worldTradingData = WorldTradingDataService.getInstance();
+  private final WorldTradingDataService worldTradingData = new WorldTradingDataService();
+  private final String apiToken;
 
   @Autowired
-  public StockController(StockRepository stockRepository) {
+  public StockController(@Value("${world_trading_api_key}") String apiToken, StockRepository stockRepository) {
     this.stockRepository = stockRepository;
+    this.apiToken = apiToken;
   }
 
   /**
@@ -47,14 +48,15 @@ public class StockController {
     return Lists.newArrayList(stockRepository.findAll());
   }
 
-  @GetMapping(value = "/{ticker}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Stock get(@PathParam("ticker") String ticker) {
-    if (stockRepository.getStockByNasdaqName(ticker).isPresent()) {
-      return stockRepository.getStockByNasdaqName(ticker).get();
+  @GetMapping(value = "/{symbol}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Stock get(@PathVariable String symbol, Authentication auth) {
+    if (stockRepository.getStockByNasdaqName(symbol).isPresent()) {
+      return stockRepository.getStockByNasdaqName(symbol).get();
     } else {
-
+      Stock stock = worldTradingData.getPostsPlainJSON(apiToken, symbol);
+      stockRepository.save(stock);
+      return stock;
     }
-    return null;
   }
 
   /**

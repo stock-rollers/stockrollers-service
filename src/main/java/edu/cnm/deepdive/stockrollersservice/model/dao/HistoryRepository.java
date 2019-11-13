@@ -7,6 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface HistoryRepository extends CrudRepository<History, Long> {
 
-  List<History> getHistoriesByStockOrderByCloseAsc(Stock stock);
+  List<History> getAllByStockId(Long stockId);
 
 }

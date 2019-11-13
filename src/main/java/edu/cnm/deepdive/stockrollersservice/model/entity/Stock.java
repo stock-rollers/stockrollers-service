@@ -1,5 +1,8 @@
 package edu.cnm.deepdive.stockrollersservice.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.Column;
@@ -15,6 +18,7 @@ import javax.persistence.OneToMany;
 import org.springframework.lang.NonNull;
 
 @Entity
+@JsonIgnoreProperties(value={}, ignoreUnknown = true, allowGetters = true)
 public class Stock {
 
   @Id
@@ -26,11 +30,7 @@ public class Stock {
   private List<User> users = new LinkedList<>();
 
   @OneToMany(mappedBy = "stock", fetch = FetchType.LAZY)
-  private List<History> histories;
-
-  @NonNull
-  @Column(nullable = false, updatable = false)
-  private String name;
+  private List<History> histories = new LinkedList<>();
 
   @NonNull
   @Column(nullable = false, updatable = false)
@@ -40,14 +40,13 @@ public class Stock {
   @Column(nullable = false, updatable = false)
   private String company;
 
-  @NonNull
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "industry", nullable = false, updatable = false)
+  @JoinColumn(name = "industry_id")
   private Industry industry;
 
   @NonNull
   @Column(nullable = false)
-  private double price;
+  private Double price;
 
   private double fiftyTwoWkHigh;
 
@@ -55,22 +54,16 @@ public class Stock {
 
   private String plotPath;
 
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public String getName() {
-    return name;
-  }
-
-  public void setName(@NonNull String name) {
-    this.name = name;
-  }
-
+  @NonNull
   public String getNasdaqName() {
     return nasdaqName;
   }
 
+  @JsonProperty("symbol")
   public void setNasdaqName(@NonNull String nasdaqName) {
     this.nasdaqName = nasdaqName;
   }
@@ -79,6 +72,7 @@ public class Stock {
     return company;
   }
 
+  @JsonProperty("name")
   public void setCompany(@NonNull String company) {
     this.company = company;
   }
@@ -87,7 +81,7 @@ public class Stock {
     return industry;
   }
 
-  public void setIndustry(@NonNull Industry industry) {
+  public void setIndustry(Industry industry) {
     this.industry = industry;
   }
 
@@ -95,7 +89,8 @@ public class Stock {
     return price;
   }
 
-  public void setPrice(@NonNull double price) {
+  @JsonProperty("price")
+  public void setPrice(@NonNull Double price) {
     this.price = price;
   }
 
@@ -103,6 +98,7 @@ public class Stock {
     return fiftyTwoWkHigh;
   }
 
+  @JsonProperty("52_week_high")
   public void setFiftyTwoWkHigh(double fiftyTwoWkHigh) {
     this.fiftyTwoWkHigh = fiftyTwoWkHigh;
   }
@@ -111,6 +107,7 @@ public class Stock {
     return fiftyTwoWkLow;
   }
 
+  @JsonProperty("52_week_low")
   public void setFiftyTwoWkLow(double fiftyTwoWkLow) {
     this.fiftyTwoWkLow = fiftyTwoWkLow;
   }
