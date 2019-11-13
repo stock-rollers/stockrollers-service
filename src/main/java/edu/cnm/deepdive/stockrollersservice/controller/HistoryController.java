@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -38,7 +39,7 @@ public class HistoryController {
    * @return
    */
   @GetMapping(value = "/{stockticker}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<History> get(String stockticker) {
+  public List<History> get(@PathVariable String stockticker) {
     Long stockId = stockRepository.getStockByNasdaqName(stockticker).get().getId();
     return historyRepository.getAllByStockId(stockId);
   }

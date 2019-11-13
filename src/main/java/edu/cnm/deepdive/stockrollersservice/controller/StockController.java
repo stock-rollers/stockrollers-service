@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -70,13 +71,6 @@ public class StockController {
         .getAllByUserId(userId);
   }
 
-  //FIXME delete this?
-//  //Not sure that this is possible
-//  @GetMapping(value = "stocksbyusers", produces = MediaType.APPLICATION_JSON_VALUE)
-//  public List<Stock> getStockByUsers(@RequestParam("users") List<User> users) {
-//    return stockRepository.getAllOrderByUsers(users);
-//  }
-
   /**
    * Gets all stocks from a specific industry.
    * @param industryId
@@ -86,16 +80,6 @@ public class StockController {
   public List<Stock> getStocks(long industryId) {
     return stockRepository
         .getAllByIndustryId(industryId);
-  }
-
-  /**
-   * Stores a stock in the database. FIXME is this different from below?
-   * @param stock
-   * @return
-   */
-  @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-  public Stock addStock(@RequestBody Stock stock) {
-    return stockRepository.save(stock);
   }
 
   /**
@@ -132,6 +116,11 @@ public class StockController {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(Exception.class)
   public void badRequest() {
+  }
+
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  @ExceptionHandler(BadCredentialsException.class)
+  public void unauthorised() {
   }
 
 }
