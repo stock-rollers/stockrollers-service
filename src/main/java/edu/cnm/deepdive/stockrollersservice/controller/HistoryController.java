@@ -5,9 +5,11 @@ import edu.cnm.deepdive.stockrollersservice.model.dao.StockRepository;
 import edu.cnm.deepdive.stockrollersservice.model.entity.History;
 import edu.cnm.deepdive.stockrollersservice.model.entity.Stock;
 import edu.cnm.deepdive.stockrollersservice.model.pojo.StockResponse;
+import edu.cnm.deepdive.stockrollersservice.service.WorldTradingDataService;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,11 +28,14 @@ public class HistoryController {
 
   private final HistoryRepository historyRepository;
   private final StockRepository stockRepository;
+  private final WorldTradingDataService tradingDataService = new WorldTradingDataService();
+  private final String apiToken;
 
   @Autowired
-  public HistoryController(HistoryRepository historyRepository, StockRepository stockRepository) {
+  public HistoryController(@Value("${world_trading_api_key}") String apiToken, HistoryRepository historyRepository, StockRepository stockRepository) {
     this.historyRepository = historyRepository;
     this.stockRepository = stockRepository;
+    this.apiToken = apiToken;
   }
 
   /**
@@ -40,8 +45,14 @@ public class HistoryController {
    */
   @GetMapping(value = "/{stockticker}", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<History> get(@PathVariable String stockticker) {
-    Long stockId = stockRepository.getStockByNasdaqName(stockticker).get().getId();
-    return historyRepository.getAllByStockId(stockId);
+    long stockId = stockRepository.getStockByNasdaqName(stockticker).get().getId();
+    if(historyRepository.getAllByStockId(stockId).size() > 0) {
+      return historyRepository.getAllByStockId(stockId);
+    } else {
+      List<History> histories = tradingDataService.getPostsPlainJSONHistory(stockticker, apiToken);
+      historyRepository.saveAll(histories);
+      return histories;
+    }
   }
 
   /**

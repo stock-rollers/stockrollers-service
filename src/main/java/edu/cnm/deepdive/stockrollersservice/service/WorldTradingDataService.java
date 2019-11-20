@@ -1,8 +1,13 @@
 package edu.cnm.deepdive.stockrollersservice.service;
 
+import com.google.gson.Gson;
+import edu.cnm.deepdive.stockrollersservice.model.entity.History;
 import edu.cnm.deepdive.stockrollersservice.model.entity.Stock;
+import edu.cnm.deepdive.stockrollersservice.model.pojo.HistoryResponse;
 import edu.cnm.deepdive.stockrollersservice.model.pojo.StockResponse;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
@@ -17,7 +22,7 @@ public class WorldTradingDataService {
 //    return InstanceHolder.INSTANCE;
 //  }
 
-  public Stock getPostsPlainJSON(String token, String symbol) {
+  public Stock getPostsPlainJSONStock(String token, String symbol) {
     try {
       Map<String, String> params = new HashMap<>();
       params.put("token", token);
@@ -29,6 +34,20 @@ public class WorldTradingDataService {
       throw new RuntimeException(e);
     }
   }
+
+  public List<History> getPostsPlainJSONHistory(String token, String symbol) {
+    try {
+      List<History> histories = new LinkedList<>();
+      Map<String, String> params = new HashMap<>();
+      params.put("token", token);
+      params.put("symbol", symbol);
+      String url = "https://api.worldtradingdata.com/api/v1/history?api_token={token}&symbol={symbol}";
+      HistoryResponse response = restTemplate.getForObject(url, HistoryResponse.class, params);
+      return response.getHistoryList().getHistories();
+    } catch (Exception e) {
+      throw new RuntimeException();
+    }
+    }
 
   // "http://www.flickr.com/services/rest?method=flickr.photos.search&api+key={api-key}&tags={tag}&per_page=10";
 //

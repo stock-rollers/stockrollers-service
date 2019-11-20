@@ -54,7 +54,7 @@ public class StockController {
     if (stockRepository.getStockByNasdaqName(symbol).isPresent()) {
       return stockRepository.getStockByNasdaqName(symbol).get();
     } else {
-      Stock stock = worldTradingData.getPostsPlainJSON(apiToken, symbol);
+      Stock stock = worldTradingData.getPostsPlainJSONStock(apiToken, symbol);
       stockRepository.save(stock);
       return stock;
     }

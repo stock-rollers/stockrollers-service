@@ -1,5 +1,8 @@
 package edu.cnm.deepdive.stockrollersservice.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import edu.cnm.deepdive.stockrollersservice.view.HistoryListSerializer.Deserializer;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +15,7 @@ import javax.persistence.ManyToOne;
 import org.springframework.lang.NonNull;
 
 @Entity
+@JsonDeserialize(using = Deserializer.class)
 public class History {
 
   @Id
@@ -55,6 +59,7 @@ public class History {
     return open;
   }
 
+  @JsonProperty("open")
   public void setOpen(float open) {
     this.open = open;
   }
@@ -63,6 +68,7 @@ public class History {
     return close;
   }
 
+  @JsonProperty("close")
   public void setClose(float close) {
     this.close = close;
   }
@@ -71,6 +77,7 @@ public class History {
     return high;
   }
 
+  @JsonProperty("high")
   public void setHigh(float high) {
     this.high = high;
   }
@@ -79,6 +86,7 @@ public class History {
     return low;
   }
 
+  @JsonProperty("low")
   public void setLow(float low) {
     this.low = low;
   }
@@ -87,6 +95,11 @@ public class History {
     return volume;
   }
 
+  public void setDate(@NonNull LocalDate date) {
+    this.date = date;
+  }
+
+  @JsonProperty("volume")
   public void setVolume(long volume) {
     this.volume = volume;
   }
