@@ -1,8 +1,7 @@
 package edu.cnm.deepdive.stockrollersservice.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import edu.cnm.deepdive.stockrollersservice.view.HistoryListSerializer.Deserializer;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,13 +14,13 @@ import javax.persistence.ManyToOne;
 import org.springframework.lang.NonNull;
 
 @Entity
-@JsonDeserialize(using = Deserializer.class)
+@JsonIgnoreProperties(ignoreUnknown = true, allowGetters = true)
 public class History {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "history_id")
-  private long id;
+  @Column(name = "history_id", nullable = false, updatable = false)
+  private Long id;
 
   @NonNull
   @Column(nullable = false, updatable = false)
@@ -46,7 +45,7 @@ public class History {
   @Column(name = "trade_volume")
   private long volume;
 
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
@@ -99,7 +98,14 @@ public class History {
     this.date = date;
   }
 
-  @JsonProperty("volume")
+  public void setStock(Stock stock) {
+    this.stock = stock;
+  }
+
+  public Stock getStock() {
+    return stock;
+  }
+
   public void setVolume(long volume) {
     this.volume = volume;
   }

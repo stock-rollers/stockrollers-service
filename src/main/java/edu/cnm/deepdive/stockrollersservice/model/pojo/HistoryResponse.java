@@ -3,13 +3,11 @@ package edu.cnm.deepdive.stockrollersservice.model.pojo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
+
 import edu.cnm.deepdive.stockrollersservice.model.entity.History;
 import edu.cnm.deepdive.stockrollersservice.view.HistoryListSerializer;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class HistoryResponse {
@@ -17,6 +15,7 @@ public class HistoryResponse {
   private String name;
 
   @JsonProperty("history")
+  @JsonDeserialize(using = HistoryListSerializer.Deserializer.class)
   private HistoryList historyList;
 
   public String getName() {

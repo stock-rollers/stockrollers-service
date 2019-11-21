@@ -37,6 +37,7 @@ public class HistoryListSerializer {
         history.setOpen(Float.parseFloat(n.get("open").asText()));
         history.setVolume(Long.parseLong(n.get("volume").asText()));
         history.setDate(LocalDate.parse(dateString));
+
         historyList.getHistories().add(history);
       }
 //

@@ -6,6 +6,8 @@ import edu.cnm.deepdive.stockrollersservice.model.entity.History;
 import edu.cnm.deepdive.stockrollersservice.model.entity.Stock;
 import edu.cnm.deepdive.stockrollersservice.model.pojo.StockResponse;
 import edu.cnm.deepdive.stockrollersservice.service.WorldTradingDataService;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,14 +48,22 @@ public class HistoryController {
   @GetMapping(value = "/{stockticker}", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<History> get(@PathVariable String stockticker) {
     long stockId = stockRepository.getStockByNasdaqName(stockticker).get().getId();
-    if(historyRepository.getAllByStockId(stockId).size() > 0) {
+    if(!historyRepository.getAllByStockId(stockId).isEmpty()) {
+      LocalDate localDate = LocalDate.now();
+      if(historyRepository.getHistoryByDate(localDate).get().getDate().getDayOfWeek() == DayOfWeek.SUNDAY) {
+
+      }
       return historyRepository.getAllByStockId(stockId);
     } else {
-      List<History> histories = tradingDataService.getPostsPlainJSONHistory(stockticker, apiToken);
+      List<History> histories = tradingDataService.getPostsPlainJSONHistory(apiToken, stockticker);
+      for (History history : histories) {
+        history.setStock(stockRepository.findById(stockId).get());
+      }
       historyRepository.saveAll(histories);
       return histories;
     }
   }
+
 
   /**
    * Updates the history of a stock.
