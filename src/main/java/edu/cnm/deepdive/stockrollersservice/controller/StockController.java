@@ -4,8 +4,12 @@ import com.google.api.client.util.Lists;
 import edu.cnm.deepdive.stockrollersservice.model.dao.StockRepository;
 import edu.cnm.deepdive.stockrollersservice.model.entity.Stock;
 import edu.cnm.deepdive.stockrollersservice.service.WorldTradingDataService;
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -39,16 +43,6 @@ public class StockController {
     this.apiToken = apiToken;
   }
 
-  /**
-   * Gets a list of stocks TODO umm what is this doing.
-   * @param auth
-   * @return
-   */
-  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<Stock> get(Authentication auth) {
-    return Lists.newArrayList(stockRepository.findAll());
-  }
-
   @GetMapping(value = "/{symbol}", produces = MediaType.APPLICATION_JSON_VALUE)
   public Stock get(@PathVariable String symbol, Authentication auth) {
     if (stockRepository.getStockByNasdaqName(symbol).isPresent()) {
@@ -58,6 +52,23 @@ public class StockController {
       stockRepository.save(stock);
       return stock;
     }
+  }
+
+  @GetMapping(value = "/update/{symbol}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Stock update(@PathVariable String symbol, Authentication auth) {
+    Stock stock = worldTradingData.getPostsPlainJSONStock(apiToken, symbol);
+    //stockRepository.updateStockByName(stock.getNasdaqName(), stock.getPrice());
+    return stock;
+  }
+
+  @GetMapping(value = "/random", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Stock getRandom(Authentication auth) {
+    //Convert an Iterable to a List
+    List<Stock> stocks = StreamSupport.stream(stockRepository.findAll().spliterator(), false)
+        .collect(Collectors.toList());
+    Random rng = new SecureRandom();
+    int random = rng.nextInt(stocks.size());
+    return stocks.get(random);
   }
 
   /**

@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.stockrollersservice.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ public class History {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "history_id", nullable = false, updatable = false)
+  @JsonIgnore
   private Long id;
 
   @NonNull
@@ -28,6 +30,7 @@ public class History {
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "stock_id", updatable = false, nullable = false)
+  @JsonIgnore
   private Stock stock;
 
   @Column(name = "open_price")

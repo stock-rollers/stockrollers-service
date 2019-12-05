@@ -9,8 +9,8 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface HistoryRepository extends CrudRepository<History, Long> {
 
-  List<History> getAllByStockId(Long stockId);
+  List<History> getAllByStockIdOrderByDateDesc(Long stockId);
 
-  Optional<History> getHistoryByDate(LocalDate date);
+  Optional<History> getFirstByOrderByDateDesc();
 
 }

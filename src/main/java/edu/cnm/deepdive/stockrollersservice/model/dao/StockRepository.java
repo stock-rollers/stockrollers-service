@@ -4,6 +4,7 @@ import edu.cnm.deepdive.stockrollersservice.model.entity.Stock;
 import edu.cnm.deepdive.stockrollersservice.model.entity.User;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -19,4 +20,8 @@ public interface StockRepository extends CrudRepository<Stock, Long> {
   List<Stock> getAllByIndustryId(long industryId);
 
   Optional<Stock> getStockByNasdaqName(String nasdaqName);
+
+  @Modifying
+  @Query(value = "UPDATE Stock s SET price = :price WHERE nasdaq_name = :nasdaqName")
+  void updateStockByName(String nasdaqName, Double price);
 }

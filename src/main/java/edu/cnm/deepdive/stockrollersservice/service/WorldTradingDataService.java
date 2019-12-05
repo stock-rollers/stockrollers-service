@@ -47,34 +47,16 @@ public class WorldTradingDataService {
     } catch (Exception e) {
       throw new RuntimeException();
     }
+  }
+
+  public List<History> getPostsPlainJSONHistoryByDate(String token, String symbol, String from, String to) {
+    try {
+      List<History> histories = new LinkedList<>();
+      String url = "https://api.worldtradingdata.com/api/v1/history?api_token={token}&symbol={symbol}&date_from={from}&date_to={to}";
+      HistoryResponse response = restTemplate.getForObject(url, HistoryResponse.class, token, symbol, from, to);
+      return response.getHistoryList().getHistories();
+    } catch (Exception e) {
+      throw new RuntimeException();
     }
-
-  // "http://www.flickr.com/services/rest?method=flickr.photos.search&api+key={api-key}&tags={tag}&per_page=10";
-//
-//  @GET("stock/")
-//  Single<Stock> getStock(@Query("api_token") String token, @Query("symbol") String symbol);
-//
-//  @GET("history/")
-//  List<History> getHistory(@Header("api_token") String token, @Query("symbol") String symbol);
-
-//  class InstanceHolder {
-//
-//    private static final WorldTradingDataService INSTANCE;
-//
-//    static {
-//      HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-//      interceptor.setLevel(Level.BODY);
-//      OkHttpClient client = new OkHttpClient.Builder()
-//          .addInterceptor(interceptor)
-//          .build();
-//      Retrofit retrofit = new Retrofit.Builder()
-//          .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//          .addConverterFactory(GsonConverterFactory.create())
-//          .baseUrl("https://api.worldtradingdata.com/api/v1/")
-//          .client(client) // TODO Leave this out for production.
-//          .build();
-//      INSTANCE = retrofit.create(WorldTradingDataService.class);
-//    }
-//  }
-
+  }
 }

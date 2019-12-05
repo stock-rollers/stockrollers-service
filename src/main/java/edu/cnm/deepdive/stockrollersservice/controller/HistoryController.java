@@ -47,23 +47,46 @@ public class HistoryController {
    */
   @GetMapping(value = "/{stockticker}", produces = MediaType.APPLICATION_JSON_VALUE)
   public List<History> get(@PathVariable String stockticker) {
-    long stockId = stockRepository.getStockByNasdaqName(stockticker).get().getId();
-    if(!historyRepository.getAllByStockId(stockId).isEmpty()) {
+    long stockId = this.stockRepository.getStockByNasdaqName(stockticker).get().getId();
+    if(!this.historyRepository.getAllByStockIdOrderByDateDesc(stockId).isEmpty()) {
       LocalDate localDate = LocalDate.now();
-      if(historyRepository.getHistoryByDate(localDate).get().getDate().getDayOfWeek() == DayOfWeek.SUNDAY) {
-
+      localDate = getClosestPreviousWeekDay(localDate);
+      if (this.historyRepository.getFirstByOrderByDateDesc().get().getDate() != localDate && !localDate
+          .equals(LocalDate.now())) {
+        String from = this.historyRepository.getFirstByOrderByDateDesc().get().getDate().toString();
+        String to = localDate.toString();
+        List<History> histories =
+        tradingDataService.getPostsPlainJSONHistoryByDate(apiToken, stockticker, from, to);
+        histories = setStock(histories, stockId);
+        this.historyRepository.saveAll(histories);
+        return historyRepository.getAllByStockIdOrderByDateDesc(stockId);
+      } else {
+        return this.historyRepository.getAllByStockIdOrderByDateDesc(stockId);
       }
-      return historyRepository.getAllByStockId(stockId);
     } else {
       List<History> histories = tradingDataService.getPostsPlainJSONHistory(apiToken, stockticker);
-      for (History history : histories) {
-        history.setStock(stockRepository.findById(stockId).get());
-      }
-      historyRepository.saveAll(histories);
+      histories = setStock(histories, stockId);
+      this.historyRepository.saveAll(histories);
       return histories;
     }
   }
 
+  private List<History> setStock(List<History> histories, Long stockId) {
+    for (History history : histories) {
+      history.setStock(stockRepository.findById(stockId).get());
+    }
+    return histories;
+  }
+
+  private LocalDate getClosestPreviousWeekDay(LocalDate date) {
+    if (date.getDayOfWeek() != DayOfWeek.SUNDAY && date.getDayOfWeek() != DayOfWeek.SATURDAY) {
+      return date;
+    } else if (date.getDayOfWeek() == DayOfWeek.SUNDAY) {
+      return date.minusDays(2);
+    } else {
+      return date.minusDays(1);
+    }
+  }
 
   /**
    * Updates the history of a stock.

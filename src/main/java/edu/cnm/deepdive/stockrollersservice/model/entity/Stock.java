@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.stockrollersservice.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
@@ -24,6 +25,7 @@ public class Stock {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "stock_id", nullable = false, updatable = false)
+  @JsonIgnore
   private Long id;
 
   @ManyToMany(mappedBy = "stocks", fetch = FetchType.LAZY)
